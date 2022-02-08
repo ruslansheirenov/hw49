@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Issue List{% endblock title %}
+{% block content %}
+    <h1>Issues</h1>
+    {% for issue in issues %}
+        <h3>{{ issue.summary }}</h3>
+        <p><a href="#">More...</a></p>
+        <p><a href="#">Update</a></p>
+        <p><a href="#">Delete</a></p>
+    {% endfor %}
+{% endblock %}
