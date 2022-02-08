@@ -34,3 +34,24 @@ class IssueCreateView(View):
                 return redirect("ussue_view", pk=new_issue.pk)
             return render(request, 'create.html', {"form": form})
     
+class IssueUpdateView(View):
+    def update_view(request, pk):
+        issue = get_object_or_404(Issue, pk=pk)
+        if request.method == 'GET':
+            form = IssueForm(initial={
+                'summary': issue.summary,
+                'description': issue.description,
+                'status': issue.status, 
+                'type': issue.type
+            })
+            return render(request, 'update.html', {"issue": issue, "form": form})
+        else:
+            form = IssueForm(data=request.POST)
+            if form.is_valid():
+                issue.product_name = request.POST.get('summary')
+                issue.description = request.POST.get('description')
+                issue.category = request.POST.get('status')
+                issue.remainder = request.POST.get('type')
+                issue.save()
+                return redirect("issue_view", pk)
+            return render(request, 'update.html', {"issue": issue, "form": form})

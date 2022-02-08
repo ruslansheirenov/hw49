@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from webapp.views import IndexView, IssueDetailView, IssueCreateView
+from webapp.views import IndexView, IssueDetailView, IssueCreateView, IssueUpdateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
     path('issue/<int:pk>/', IssueDetailView.as_view(), name='issue_view'),
     path('issue/create/', IssueCreateView.as_view(), name='create'),
+    path('issue/<int:pk>/update', IssueDetailView.as_view(), name='update'),
 ]
