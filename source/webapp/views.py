@@ -35,8 +35,8 @@ class IssueCreateView(View):
             return render(request, 'create.html', {"form": form})
     
 class IssueUpdateView(View):
-    def update_view(request, pk):
-        issue = get_object_or_404(Issue, pk=pk)
+    def update_view(request):
+        issue = get_object_or_404(Issue, pk=kwargs.get("pk"))
         if request.method == 'GET':
             form = IssueForm(initial={
                 'summary': issue.summary,
@@ -55,3 +55,12 @@ class IssueUpdateView(View):
                 issue.save()
                 return redirect("issue_view", pk)
             return render(request, 'update.html', {"issue": issue, "form": form})
+
+class IssueDeleteView(View):
+    def delete_view(request):
+        issue = get_object_or_404(Issue, pk=kwargs.get("pk"))
+        if request.method == 'GET':
+            return render(request, "delete.html", {"issue": issue})
+        else:
+            issue.delete()
+            return redirect("index")

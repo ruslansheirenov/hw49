@@ -5,7 +5,7 @@
     {% for issue in issues %}
         <h3>{{ issue.summary }}</h3>
         <p><a href="{% url 'issue_view' issue.pk %}">More...</a></p>
-        <p><a href="#">Update</a></p>
-        <p><a href="#">Delete</a></p>
+        <p><a href="{% url 'update' issue.pk %}">Update</a></p>
+        <p><a href="{% url 'delete' issue.pk %}">Delete</a></p>
     {% endfor %}
 {% endblock %}
