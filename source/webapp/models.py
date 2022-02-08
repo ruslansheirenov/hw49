@@ -10,7 +10,8 @@ class BaseModel(models.Model):
         abstract = True
 
 class TypeModel(models.Model):
-    types = models.CharField(max_length=11, null=False, blank=False, verbose_name='Тип')
+    TYPE_CHOICES = [('Task', 'Задача'), ('Bug', 'Ошибка'), ('Enhancement', 'Улучшение')]
+    types = models.CharField(max_length=11, choices=TYPE_CHOICES, default='Task', verbose_name='Тип')
 
     class Meta:
         db_table = 'types'
@@ -18,7 +19,8 @@ class TypeModel(models.Model):
         verbose_name_plural = 'Типы'
 
 class StatusModel(models.Model):
-    statuses = models.CharField(max_length=11, null=False, blank=False, verbose_name='Статус')
+    STATUS_CHOICES = [('New', 'Новая'), ('In Progress', 'В Процессе'), ('Done', 'Сделано')]
+    statuses = models.CharField(max_length=11, choices=STATUS_CHOICES, default='New', verbose_name='Статус')
 
     class Meta:
         db_table = 'statuses'

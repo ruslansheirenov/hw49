@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ issue.id }}{% endblock title %}
+{% block content %}
+    <h1>{{ issue.summary }}</h1>
+    <h3>{{ issue.description }}</h3>
+    <h3>{{ issue.status }}</h3>
+    <h3>{{ issue.type }}</h3>
+    <p><a href="#">Update</a></p>
+    <p><a href="#">Delete</a></p>
+{% endblock %}
