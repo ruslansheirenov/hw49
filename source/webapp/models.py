@@ -31,7 +31,7 @@ class Issue(BaseModel):
     summary = models.CharField(max_length=100, null=False, blank=False, verbose_name='Заголовок')
     description = models.TextField(max_length=2000, null=False, blank=False, verbose_name='Описание')
     status = models.ForeignKey('webapp.StatusModel', related_name='status', on_delete=models.PROTECT, verbose_name='Статус')
-    type = models.ForeignKey('webapp.TypeModel', related_name='type', on_delete=models.PROTECT, verbose_name='Тип')
+    type = models.ManyToManyField('webapp.TypeModel', related_name='issues', blank=True)
 
     class Meta:
         db_table = 'issues'
