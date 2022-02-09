@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
     path('issue/<int:pk>/', IssueDetailView.as_view(), name='issue_view'),
-    path('issue/create/', IssueCreateView.as_view(), name='create'),
+    path('issue/create/', IssueCreateView.as_view(), name='issue_create'),
     path('issue/<int:pk>/update', IssueUpdateView.as_view(), name='update'),
-    path('issue/<int:pk>/update', IssueDeleteView.as_view(), name='delete'),
+    path('issue/<int:pk>/delete', IssueDeleteView.as_view(), name='delete'),
 ]
