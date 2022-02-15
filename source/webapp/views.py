@@ -1,6 +1,7 @@
 from django.db.models import Q
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404, reverse 
-from django.views.generic import View, TemplateView, FormView, ListView
+from django.views.generic import View, TemplateView, FormView, ListView, DeleteView
 from django.utils.http import urlencode
 
 from .models import Issue
@@ -100,31 +101,7 @@ class IssueUpdateView(FormView):
 
 #Удаление задачи
 
-class IssueDeleteView(FormView):
+class IssueDeleteView(DeleteView):
     template_name = 'issue/delete.html'
-    form_class = IssueForm
-
-    def dispatch(self, request, *args, **kwargs):
-        self.issue = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['issue'] = self.issue
-        return context
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.issue
-        return kwargs
-
-    def form_valid(self, form):
-        self.issue = form.delete(kwargs)
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('index')
-
-    def get_object(self):
-        pk = self.kwargs.get('pk')
-        return get_object_or_404(Issue, pk=pk)
+    model = Issue
+    success_url = reverse_lazy('index')
