@@ -4,8 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.generic import View, TemplateView, FormView, ListView, DeleteView
 from django.utils.http import urlencode
 
-from .models import Issue
-from .forms import IssueForm, IssueSearchForm
+from webapp.models import Issue
+from webapp.forms import IssueForm, IssueSearchForm
 
 # Create your views here.
 

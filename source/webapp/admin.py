@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Issue, TypeModel, StatusModel
+from .models import Issue, TypeModel, StatusModel, Project
 
 class IssueAdmin(admin.ModelAdmin):
     list_display = ['id', 'summary', 'created_at']
@@ -20,7 +20,13 @@ class TypeAdmin(admin.ModelAdmin):
     search_fields = ['types']
     fields = ['types']
 
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'created_at']
+    search_fields = ['title']
+    fields = ['title', 'description', 'issue', 'created_at', 'updated_at']
+
 
 admin.site.register(Issue, IssueAdmin)
 admin.site.register(TypeModel, TypeAdmin)
 admin.site.register(StatusModel, StatusAdmin)
+admin.site.register(Project, ProjectAdmin)
