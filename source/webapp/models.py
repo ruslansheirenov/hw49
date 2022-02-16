@@ -49,8 +49,8 @@ class Issue(BaseModel):
 class Project(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False, verbose_name='Название')
     description = models.TextField(max_length=2000, null=False, blank=False, verbose_name='Описание')
-    created_at = models.DateField(verbose_name='Дата Создания')
-    updated_at = models.DateField(verbose_name='Дата Редактирования')
+    created_at = models.DateTimeField(verbose_name='Дата Создания')
+    updated_at = models.DateTimeField(verbose_name='Дата Редактирования')
     issue = models.ForeignKey("webapp.Issue", on_delete=models.CASCADE,related_name="projects", verbose_name="Задача", default=1)
 
     def __str__(self):

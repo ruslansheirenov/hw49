@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block nav %}{% endblock %}
+{% block content %}
+    <form action="{% url "delete" project.pk %}" method="POST">
+    {% csrf_token %}
+        <h2>Do you really want to delete this project?</h2>
+        <input type="submit" value="Yes">
+    </form>
+    </br>
+    <a href="{% url "index" %}"><input type="submit" value="No"></a>
+{% endblock %}
