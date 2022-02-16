@@ -4,7 +4,7 @@
     <h1>Projects</h1>
     {% for project in projects %}
         <h3>{{ project.title }}</h3>
-        <p><a href="#">More...</a></p>
+        <p><a href="{% url 'project_view' project.pk %}">More...</a></p>
         <p><a href="#">Update</a></p>
         <p><a href="#">Delete</a></p>
     {% endfor %}

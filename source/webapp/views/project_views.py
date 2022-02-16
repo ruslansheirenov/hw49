@@ -1,10 +1,10 @@
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404, reverse 
-from django.views.generic import View, TemplateView, FormView, ListView, DeleteView
+from django.views.generic import View, TemplateView, FormView, ListView, DetailView, CreateView
 from django.utils.http import urlencode
 
-from webapp.models import Project
+from webapp.models import Project, Issue
 from webapp.forms import ProjectForm, ProjectSearchForm
 
 class ProjectIndexView(ListView):
@@ -41,3 +41,17 @@ class ProjectIndexView(ListView):
         if self.form.is_valid():
             return self.form.cleaned_data['search']
         return None
+
+
+class ProjectDetailView(DetailView):
+    template_name = 'project/project_view.html'
+    model = Project
+
+
+class ProjectCreateView(CreateView):
+    model = Project
+    template_name = 'project/project_create.html'
+    form_class = ProjectForm
+
+    def get_success_url(self):
+        return reverse('project_view', kwargs={'pk': self.object.pk})

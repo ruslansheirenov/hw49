@@ -27,18 +27,9 @@ class IssueSearchForm(forms.Form):
 
 class ProjectForm(forms.ModelForm):
     class Meta:
-        model = Issue
+        model = Project
         exclude = []
 
-    def clean(self):
-        cleaned_data = super().clean()
-        title = cleaned_data['title']
-        description = cleaned_data['description']
-        if len(title) < 5:
-            self.add_error('summary', ValidationError(f'Значение должно быть более 5 символов. {title} не подходит.'))
-        if title == content:
-            raise ValidationError("Text of the issue should not duplicate it's title!")
-        return cleaned_data
 
 class ProjectSearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label="search")
