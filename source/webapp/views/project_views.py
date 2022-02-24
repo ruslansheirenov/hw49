@@ -1,13 +1,14 @@
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404, reverse 
-from django.views.generic import View, TemplateView, FormView, ListView, DetailView, CreateView
+from django.views.generic import View, TemplateView, FormView, ListView, UpdateView, DetailView, CreateView, DeleteView
 from django.utils.http import urlencode
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from webapp.models import Project, Issue
 from webapp.forms import ProjectForm, ProjectSearchForm
 
-class ProjectIndexView(ListView):
+class ProjectIndexView(LoginRequiredMixin, ListView):
     context_object_name = 'projects'
     model = Project
     template_name = 'project/project_index.html'
@@ -43,12 +44,12 @@ class ProjectIndexView(ListView):
         return None
 
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(LoginRequiredMixin, DetailView):
     template_name = 'project/project_view.html'
     model = Project
 
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     template_name = 'project/project_create.html'
     form_class = ProjectForm
@@ -57,7 +58,7 @@ class ProjectCreateView(CreateView):
         return reverse('project_view', kwargs={'pk': self.object.pk})
 
 
-class ProjectUpdateView(UpdateView):
+class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
     template_name = 'issue/update.html'
     form_class = ProjectForm
@@ -67,7 +68,7 @@ class ProjectUpdateView(UpdateView):
         return reverse('project_view', kwargs={'pk': self.object.pk})
 
 
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
 
     def get(self, request, *args, **kwargs):

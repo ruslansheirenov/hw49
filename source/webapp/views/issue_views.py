@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404, reverse 
 from django.views.generic import View, TemplateView, FormView, ListView, CreateView, UpdateView, DeleteView
 from django.utils.http import urlencode
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from webapp.models import Issue
 from webapp.forms import IssueForm, IssueSearchForm
@@ -11,7 +12,7 @@ from webapp.forms import IssueForm, IssueSearchForm
 
 #Вывод всеъ задач
 
-class IndexView(ListView):
+class IndexView(LoginRequiredMixin, ListView):
     context_object_name = 'issues'
     model = Issue
     template_name = 'issue/index.html'
@@ -48,7 +49,7 @@ class IndexView(ListView):
 
 #Детальный просмотр задачи
 
-class IssueDetailView(TemplateView):
+class IssueDetailView(LoginRequiredMixin, TemplateView):
     template_name = 'issue/issue_view.html'
     
     def get_context_data(self, **kwargs):
@@ -57,7 +58,7 @@ class IssueDetailView(TemplateView):
 
 #Создание новой задачи
 
-class IssueCreateView(FormView):
+class IssueCreateView(LoginRequiredMixin, FormView):
     template_name = 'issue/create.html'
     form_class = IssueForm
 
@@ -70,7 +71,7 @@ class IssueCreateView(FormView):
 
 #Редактирование задачи
     
-class IssueUpdateView(UpdateView):
+class IssueUpdateView(LoginRequiredMixin, UpdateView):
     model = Issue
     template_name = 'issue/update.html'
     form_class = IssueForm
@@ -81,7 +82,7 @@ class IssueUpdateView(UpdateView):
 
 #Удаление задачи
 
-class IssueDeleteView(DeleteView):
+class IssueDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'issue/delete.html'
     model = Issue
     context_object_name = 'issue'

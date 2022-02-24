@@ -14,7 +14,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href={% url 'index' %}>Home</a>
+        <a class="navbar-brand" href={% url 'webapp:index' %}>Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,15 +23,28 @@
             <ul class="navbar-nav">
                 {% block nav %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "issue_create" %}">Create Issue</a>
+                    <a class="nav-link" href="{% url "webapp:issue_create" %}">Create Issue</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "project_list" %}">Projects List</a>
+                    <a class="nav-link" href="{% url "webapp:project_list" %}">Projects List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "project_create" %}">Create Project</a>
+                    <a class="nav-link" href="{% url "webapp:project_create" %}">Create Project</a>
                 </li>
                 {% endblock %}
+            </ul>
+        </div>
+        <div>
+            <ul class="menu">
+                <li><a href="{% url "webapp:index" %}">На главную</a></li>
+                <li><a href="{% url "webapp:project_list" %}">Проекты</a></li>
+                {% if user.is_authenticated %}
+                    {% block menu_links %}{% endblock %}
+                    <li class="menu-right"><a href="{% url 'accounts:logout' %}" class="nav-link">Выход</a></li>
+                    <li class="menu-right">Привет, {{ user.username }}!</li>
+                {% else %}
+                    <li class="menu-right"><a href="{% url 'accounts:login' %}" class="nav-link">Вход</a></li>         
+                {% endif %}
             </ul>
         </div>
     </div>
