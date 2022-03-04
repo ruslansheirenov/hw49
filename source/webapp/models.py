@@ -33,7 +33,7 @@ class StatusModel(models.Model):
         verbose_name_plural = 'Статусы'
 
 class Issue(BaseModel):
-    author = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=1, related_name='projects', verbose_name='Автор')
+    author = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=1, related_name='issues', verbose_name='Автор')
     summary = models.CharField(max_length=100, null=False, blank=False, verbose_name='Заголовок')
     description = models.TextField(max_length=2000, null=False, blank=False, verbose_name='Описание')
     status = models.ForeignKey('webapp.StatusModel', related_name='tasks', on_delete=models.PROTECT, verbose_name='Статус')
