@@ -5,6 +5,10 @@
     <h3>{{ issue.description }}</h3>
     <h3>{{ issue.status }}</h3>
     <h3>{{ issue.type }}</h3>
-    <p><a href="{% url 'webapp:update' issue.pk %}">Update</a></p>
-    <p><a href="{% url 'webapp:delete' issue.pk %}">Delete</a></p>
+    {% if perms.webapp.change_issue or issue.author == request.user %}
+        <p><a href="{% url 'webapp:update' issue.pk %}">Update</a></p>
+    {% endif %}
+    {% if perms.webapp.delete_issue %}
+        <p><a href="{% url 'webapp:delete' issue.pk %}">Delete</a></p>
+    {% endif %}
 {% endblock %}

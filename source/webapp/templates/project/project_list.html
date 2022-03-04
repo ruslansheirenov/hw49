@@ -8,7 +8,9 @@
         {% if perms.webapp.change_project or project.author == request.user %}
             <p><a href="{% url 'webapp:project_update' project.pk %}">Update</a></p>
         {% endif %}
-        <p><a href="{% url 'webapp:project_delete' project.pk %}">Delete</a></p>
+        {% if perms.webapp.change_project or project.author == request.user %}
+            <p><a href="{% url 'webapp:project_delete' project.pk %}">Delete</a></p>
+        {% endif %}
     {% endfor %}
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}

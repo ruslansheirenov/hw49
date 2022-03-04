@@ -6,7 +6,9 @@
     {% if perms.webapp.change_project or project.author == request.user %}
         <p><a href="{% url 'webapp:project_update' project.pk %}">Update</a></p>
     {% endif %}
-    <p><a href="{% url 'webapp:project_delete' project.pk %}">Delete</a></p>
+    {% if perms.webapp.change_project or project.author == request.user %}
+        <p><a href="{% url 'webapp:project_delete' project.pk %}">Delete</a></p>
+    {% endif %}
     <h2>Project's Issues</h2>
     <div>
         {% for issue in issue.projects.all %}
