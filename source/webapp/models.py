@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 
@@ -47,6 +48,7 @@ class Issue(BaseModel):
 
 
 class Project(models.Model):
+    author = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=1, related_name='projects', verbose_name='Автор')
     title = models.CharField(max_length=100, null=False, blank=False, verbose_name='Название')
     description = models.TextField(max_length=2000, null=False, blank=False, verbose_name='Описание')
     created_at = models.DateTimeField(verbose_name='Дата Создания')

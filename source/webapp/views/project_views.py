@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404, reverse 
 from django.views.generic import View, TemplateView, FormView, ListView, UpdateView, DetailView, CreateView, DeleteView
 from django.utils.http import urlencode
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from webapp.models import Project, Issue
 from webapp.forms import ProjectForm, ProjectSearchForm
@@ -54,15 +54,22 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'project/project_create.html'
     form_class = ProjectForm
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('project_view', kwargs={'pk': self.object.pk})
 
 
-class ProjectUpdateView(LoginRequiredMixin, UpdateView):
+class ProjectUpdateView(UserPassesTestMixin, UpdateView):
     model = Project
-    template_name = 'issue/update.html'
+    template_name = 'project/project_update.html'
     form_class = ProjectForm
     context_object_name = 'project'
+
+    def test_func(self):
+        return self.get_object().author == self.request.user or self.request.user.has_perm('webapp.change_project')
 
     def get_success_url(self):
         return reverse('project_view', kwargs={'pk': self.object.pk})
