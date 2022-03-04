@@ -34,6 +34,8 @@ LOGOUT_REDIRECT_URL = 'accounts:login'
 LOGIN_URL = "accounts:login"
 LOGOUT_URL = "accounts:logout"
 
+MEDIA_ROOT = BASE_DIR.joinpath('uploads')
+MEDIA_URL = '/uploads/'
 
 # Application definition
 
