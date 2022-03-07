@@ -22,6 +22,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 {% block nav %}
+                {% if group in request.user.groups.all or request.user.username == "admin"%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "accounts:user_list" %}">User List</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url "webapp:issue_create" %}">Create Issue</a>
                 </li>
@@ -36,14 +41,10 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav" class="menu">
-                <li class="nav-item"><a href="{% url "webapp:index" %}" class="nav-link">На главную</a></li>
-                <li class="nav-item"><a href="{% url "webapp:project_list" %}" class="nav-link">Проекты</a></li>
                 {% if user.is_authenticated %}
-                    {% block menu_links %}{% endblock %}
-                    <li class="nav-item" class="menu-right">
-                        <a href="{% url 'accounts:logout' %}" class="nav-link">Выход</a>
-                    </li>
-                    <li class="nav-item" class="menu-right">Привет, {{ user.username }}!</li>
+                {% block menu_links %}{% endblock %}
+                    <li class="menu-right"><a href="{% url 'accounts:logout' %}" class="nav-link">Выход</a></li>
+                    <li class="menu-right" class="nav-link">Привет, <a href="{% url 'accounts:detail' user.pk %}">{{ user.username }}</a>!</li>
                 {% else %}
                     <li class="nav-item" class="menu-right">
                         <a href="{% url 'accounts:login' %}" class="nav-link">Вход</a>

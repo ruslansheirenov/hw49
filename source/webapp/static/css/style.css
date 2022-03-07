@@ -46,3 +46,19 @@
 .menu {
     display: block;
 }
+
+.avatar {
+    display: inline-block;
+    float: left;
+    width: 250px;
+    height: auto;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+.clear {
+    clear: both;
+}

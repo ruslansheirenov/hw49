@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.views.generic import CreateView
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.views.generic import CreateView, DetailView, ListView
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.paginator import Paginator
 
 from .forms import MyUserCreationForm
 
@@ -47,3 +49,39 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+#Личный кабинет
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = get_user_model()
+    template_name = 'user_detail.html'
+    context_object_name = 'user_obj'
+    paginate_related_by = 5
+    paginate_related_orphans = 0
+
+    def get_context_data(self, **kwargs):
+        projects = self.object.projects.order_by('-created_at')
+        paginator = Paginator(projects, self.paginate_related_by, orphans=self.paginate_related_orphans)
+        page_number = self.request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        kwargs['page_obj'] = page
+        kwargs['projects'] = page.object_list
+        kwargs['is_paginated'] = page.has_other_pages()
+        return super().get_context_data(**kwargs)
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = get_user_model()
+    template_name = 'user_list.html'
+    context_object_name = 'users'
+    paginate_related_by = 5
+    paginate_related_orphans = 0
+
+    def get_context_data(self, **kwargs):
+        users = User.objects.all()
+        paginator = Paginator(users, self.paginate_related_by, orphans=self.paginate_related_orphans)
+        page_number = self.request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        kwargs['page_obj'] = page
+        kwargs['users'] = page.object_list
+        kwargs['is_paginated'] = page.has_other_pages()
+        return super().get_context_data(**kwargs)

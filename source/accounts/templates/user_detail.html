@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}User {{ user_obj.username }}{% endblock %}
+
+{% block menu_links %}
+    <li><a href="#" class="nav-link">Update</a></li>
+    <li><a href="#" class="nav-link">Change password</a></li>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ user_obj.get_full_name|default:user_obj.username }}'s personal page</h1>
+    {% if user_obj.profile.avatar %}
+        <img class="avatar" src="{{ user_obj.profile.avatar.url }}" width="250" height="250" alt="user picture">
+    {% endif %}
+    <p>Username: {{ user_obj.username }}</p>
+    <p>Name: {{ user_obj.first_name }}</p>
+    <p>Last name: {{ user_obj.last_name }}</p>
+    <p>Birth date: {{ user_obj.profile.birth_date|date:'d.m.Y' }}</p>
+    <p>Email: {{ user_obj.email }}</p>
+    {% if user_obj.git_profile %}
+        <p>{{ user_obj.username }}'s Git Profile: <a href="{{ user_obj.git_profile }}">{{ user_obj.git_profile }}</a></p>
+    {% endif %}
+    {% if user_obj.about_me %}
+        <p>About me: {{ user_obj.about_me }}</p>
+    {% endif %}
+
+    <h2 class="text-center clear">Author's projects:</h2>
+    {% include 'partial/project_list.html' %}
+{% endblock %}

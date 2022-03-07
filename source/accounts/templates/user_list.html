@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Users List{% endblock title %}
+{% block content %}
+    {% include 'partial/issue_search.html' %}
+    <h1>Users</h1>
+    {% for user in users %}
+        <h3>{{ user.username }}</h3>
+        <p><a href="{% url 'accounts:detail' user.pk %}">More...</a></p>
+    {% endfor %}
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+{% endblock %}
